@@ -22,6 +22,7 @@ class BannerResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+
     protected static ?string $modelLabel = 'بنر';
     protected static ?string $pluralModelLabel = 'بنر ها';
     protected static ?int $navigationSort = 3;
