@@ -2,7 +2,10 @@
 
 namespace App\Filament\Resources\Banners\Schemas;
 
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
+use Michaeld555\FilamentCroppie\Components\Croppie;
 
 class BannerForm
 {
@@ -10,7 +13,53 @@ class BannerForm
     {
         return $schema
             ->components([
-                //
+                FileUpload::make('image')
+                    ->label('تصویر')
+//                    ->multiple()
+//                    ->reorderable()
+//                    ->maxFiles(10)
+                    ->imageEditor()
+                    ->imageCropAspectRatio('16:9')
+                    ->disk('public') // or your disk
+                    ->directory('img/banner')
+                    ->visibility('public')
+
+                    ->imageEditorEmptyFillColor('#000000')
+//                    ->circleCropper()
+                    ->getUploadedFileNameForStorageUsing(function ($file): string {
+                        // Example: use timestamp + original extension
+                        return 'copa-bee-banner-en-' . time() . '.' . $file->getClientOriginalExtension();
+                    })
+                ,   FileUpload::make('image_en')
+                    ->label('تصویر انگلیسی')
+//                    ->multiple()
+//                    ->reorderable()
+//                    ->maxFiles(10)
+                    ->imageEditor()
+                    ->imageCropAspectRatio('16:9')
+                    ->disk('public') // or your disk
+                    ->directory('img/banner')
+                    ->visibility('public')
+
+                    ->imageEditorEmptyFillColor('#000000')
+//                    ->circleCropper()
+                    ->getUploadedFileNameForStorageUsing(function ($file): string {
+                        // Example: use timestamp + original extension
+                        return 'copa-bee-banner-' . time() . '.' . $file->getClientOriginalExtension();
+                    })
+                ,
+//                Forms\Components\TextInput::make('link')
+//                    ->label('لینک')
+//                    ->required()
+//                    ->columnSpanFull()
+//                    ->maxLength(255),
+                Select::make('visible')
+                    ->label('نمایش')
+                    ->options([
+                        '1' => 'بله',
+                        '0' => 'خیر',
+                    ])
+                    ->columnStart(1),
             ]);
     }
 }

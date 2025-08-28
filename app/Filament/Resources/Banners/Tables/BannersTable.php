@@ -2,10 +2,14 @@
 
 namespace App\Filament\Resources\Banners\Tables;
 
+use App\Http\Controllers\DateController;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class BannersTable
@@ -14,13 +18,35 @@ class BannersTable
     {
         return $table
             ->columns([
-                //
+                ImageColumn::make('image')
+                    ->disk('public')
+                    ->getStateUsing(function ($record): string {
+                        return $record->image;
+                    }),
+                ImageColumn::make('image_en')
+                    ->disk('public')
+                    ->getStateUsing(function ($record): string {
+                        return $record->image_en;
+                    }),
+                IconColumn::make('visible')
+                    ->label('نمایش')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check')->trueColor('success')
+                    ->falseIcon('heroicon-o-x-mark')->falseColor('danger')
+                ,
+//                    ->formatStateUsing(fn ($state) => $state ? 'بله' : 'خیر'),
+
+                TextColumn::make('created_at')
+                    ->label('تاریخ ایجاد')
+                    ->formatStateUsing(fn($state) => explode(' ', (new DateController())->toPersian($state))[0]),
+
+
             ])
             ->filters([
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
+//                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([
