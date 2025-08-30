@@ -41,8 +41,8 @@ class AdminPanelProvider extends PanelProvider
                 AccountWidget::class,
 //                FilamentInfoWidget::class,
             ])
-            ->resourceCreatePageRedirect('index') // or view or edit
-            ->resourceEditPageRedirect('index') // or view or edit
+            ->resourceCreatePageRedirect('/') // or view or edit
+            ->resourceEditPageRedirect('/') // or view or edit
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
