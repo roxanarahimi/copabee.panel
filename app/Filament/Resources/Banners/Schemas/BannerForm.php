@@ -28,7 +28,7 @@ class BannerForm
 //                    ->circleCropper()
                     ->getUploadedFileNameForStorageUsing(function ($file): string {
                         // Example: use timestamp + original extension
-                        return 'copa-bee-banner-en-' . time() . '.' . $file->getClientOriginalExtension();
+                        return 'copa-bee-banner-' . time() . '.' . $file->getClientOriginalExtension();
                     })
                 ,   FileUpload::make('image_en')
                     ->label('تصویر انگلیسی')
@@ -45,7 +45,7 @@ class BannerForm
 //                    ->circleCropper()
                     ->getUploadedFileNameForStorageUsing(function ($file): string {
                         // Example: use timestamp + original extension
-                        return 'copa-bee-banner-' . time() . '.' . $file->getClientOriginalExtension();
+                        return 'copa-bee-banner-en' . time() . '.' . $file->getClientOriginalExtension();
                     })
                 ,
 //                Forms\Components\TextInput::make('link')
