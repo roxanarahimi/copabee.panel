@@ -6,6 +6,7 @@ use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use function Laravel\Prompts\text;
 
 class ContentInfolist
 {
@@ -13,14 +14,16 @@ class ContentInfolist
     {
         return $schema
             ->components([
-                ImageEntry::make('image'),
-                TextEntry::make('title')->label('عنوان')->columnStart(1),
-                TextEntry::make('category.title')
-                    ->label('دسته بندی'),
-                IconEntry::make('active')->label('نمایش')
+                ImageEntry::make('image')->label('تصویر')  ->disk('public')->visibility('public'),
+                TextEntry::make('title')->label('عنوان')->columnStart(1)->columnSpan(1),
+                TextEntry::make('category.title')->label('دسته بندی')->columnSpan(1),
+                IconEntry::make('visible')
+                    ->label('نمایش')
                     ->boolean()
                     ->trueColor('info')//->falseIcon('')
-                    ->falseColor('danger'),
+                    ->falseColor('danger')->columnSpan(1),
+                TextEntry::make('text')->label('متن')->columnSpan(3)
+
 
             ]);
     }

@@ -20,6 +20,7 @@ class ContentsTable
             ->columns([
                 ImageColumn::make('image')
                     ->disk('public')
+                    ->visibility('public')
                     ->getStateUsing(function ($record): string {
                         return $record->image;
                     }),
