@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('title_en');
-            $table->string('slug');
-            $table->string('slug_en');
+            $table->string('title_en')->nullable();
+            $table->string('slug')->nullable();
+            $table->string('slug_en')->nullable();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->string('image')->nullable();
             $table->longText('text');
-            $table->longText('text_en');
+            $table->longText('text_en')->nullable();
             $table->longText('meta_description')->nullable();
             $table->longText('meta_description_en')->nullable();
 
