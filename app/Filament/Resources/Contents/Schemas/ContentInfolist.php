@@ -22,7 +22,7 @@ class ContentInfolist
                     ->boolean()
                     ->trueColor('info')//->falseIcon('')
                     ->falseColor('danger')->columnSpan(1),
-                TextEntry::make('text')->label('متن')->columnSpan(3)
+                TextEntry::make('text')->label('متن')->html()->columnSpan(3)
 
 
             ]);
