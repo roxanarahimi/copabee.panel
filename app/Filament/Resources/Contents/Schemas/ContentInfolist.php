@@ -14,7 +14,7 @@ class ContentInfolist
     {
         return $schema
             ->components([
-                ImageEntry::make('image')->label('تصویر')  ->disk('public')->visibility('public')->columnSpan(4),
+                ImageEntry::make('image')->label('تصویر')  ->disk('public')->visibility('public')->columnSpan(3),
                 TextEntry::make('title')->label('عنوان')->columnStart(1)->columnSpan(1),
                 TextEntry::make('title_en')->label('عنوان انگلیسی')->columnSpan(1),
                 TextEntry::make('category.title')->label('دسته بندی')->columnStart(1)->columnSpan(1),
@@ -23,8 +23,8 @@ class ContentInfolist
                     ->boolean()
                     ->trueColor('info')//->falseIcon('')
                     ->falseColor('danger')->columnSpan(1),
-                TextEntry::make('text')->label('متن')->html()->columnSpan(2)->columnStart(1),
-                TextEntry::make('text_en')->label('متن انگلیسی')->html()->alignLeft()->columnSpan(2)
+                TextEntry::make('text')->label('متن')->html()->columnSpan(3)->columnStart(1),
+                TextEntry::make('text_en')->label('متن انگلیسی')->html()->alignLeft()->columnSpan(3)
 
 
             ]);
