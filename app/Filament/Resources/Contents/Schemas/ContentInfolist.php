@@ -23,8 +23,8 @@ class ContentInfolist
                     ->boolean()
                     ->trueColor('info')//->falseIcon('')
                     ->falseColor('danger')->columnSpan(1),
-                TextEntry::make('text')->label('متن')->html()->columnSpan(3)->columnStart(1),
-                TextEntry::make('text_en')->label('متن انگلیسی')->html()->alignLeft()->columnSpan(3)
+                TextEntry::make('text')->label('متن')->html()->columnSpanFull()->columnStart(1),
+                TextEntry::make('text_en')->label('متن انگلیسی')->html()->alignLeft()->columnSpanFull()
 
 
             ]);
