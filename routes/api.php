@@ -17,5 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::resource('prize', App\Http\Controllers\ContentController::class);
 
 Route::controller(App\Http\Controllers\ContentController::class)->group(function () {
-    Route::get('/contents/{id}', 'index');
+    Route::get('/contents', 'index');
+    Route::get('/content/{slug}', 'index');
 });

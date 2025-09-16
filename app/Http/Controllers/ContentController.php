@@ -17,10 +17,10 @@ class ContentController extends Controller
             return $exception;
         }
     }
-    public function show($id)
+    public function show($slug)
     {
         try {
-            $contents = Content::where('category_id',$id)->where('visible')->get();
+            $contents = Content::where('visible')->where('slug',$slug)->orWhere('slug_en',$slug)->get();
             return response(ContentResource::collection($contents),200);
         }catch(\Exception $exception){
             return $exception;
