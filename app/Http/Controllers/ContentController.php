@@ -11,7 +11,7 @@ class ContentController extends Controller
     public function index($id)
     {
         try {
-            $contents = Content::where('visible')->where('category_id',$id)->get();
+            $contents = Content::where('visible',1)->where('category_id',$id)->get();
             return response(ContentResource::collection($contents),200);
         }catch(\Exception $exception){
             return $exception;
