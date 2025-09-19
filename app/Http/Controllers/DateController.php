@@ -9,7 +9,7 @@ class DateController extends Controller
     {
         date_default_timezone_set('Asia/Tehran');
         $formatter=new \IntlDateFormatter(
-            'fa',
+            'en_IR@calendar=persian',//'fa',
             \IntlDateFormatter::FULL,
             \IntlDateFormatter::FULL,
             'Asia/Tehran',
