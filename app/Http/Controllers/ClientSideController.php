@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ContentResource;
+use App\Models\Banner;
 use App\Models\Content;
 use Illuminate\Http\Request;
 
-class ContentController extends Controller
+class ClientSideController extends Controller
 {
-    public function index($id)
+    public function contents($id)
     {
         try {
             $contents = Content::where('visible',1)->where('category_id',$id)->get();
@@ -17,7 +18,7 @@ class ContentController extends Controller
             return $exception;
         }
     }
-    public function show($slug)
+    public function content($slug)
     {
         try {
             $contents = Content::where('visible')->where('slug',$slug)->orWhere('slug_en',$slug)->get();
@@ -26,4 +27,14 @@ class ContentController extends Controller
             return $exception;
         }
     }
+    public function banners()
+    {
+        try {
+            $banners = Banner::orderBy('id')->where('visible',1)->get();
+            return response($banners,200);
+        }catch(\Exception $exception){
+            return $exception;
+        }
+    }
+
 }
