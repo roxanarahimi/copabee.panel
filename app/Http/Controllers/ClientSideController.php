@@ -30,7 +30,7 @@ class ClientSideController extends Controller
     public function banners()
     {
         try {
-            $banners = Banner::orderBy('id')->where('visible',1)->get();
+            $banners = Banner::orderByDesc('id')->where('visible',1)->get();
             return response($banners,200);
         }catch(\Exception $exception){
             return $exception;
