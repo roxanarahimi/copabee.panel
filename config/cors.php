@@ -7,8 +7,8 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'http://localhost:5173', // برای توسعه
-        'https://asallaziz.com', // وقتی دیپلوی کردی
+//        'http://localhost:5173', // برای توسعه
+        'https://asallaziz.com:5173', // وقتی دیپلوی کردی
     ],
 
     'allowed_origins_patterns' => [],
