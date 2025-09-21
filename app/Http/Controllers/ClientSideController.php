@@ -37,4 +37,32 @@ class ClientSideController extends Controller
         }
     }
 
+    public function otp(Request $request)
+    {
+        try {
+            $banners = Banner::orderByDesc('id')->where('visible',1)->get();
+            return response($banners,200);
+        }catch(\Exception $exception){
+            return $exception;
+        }
+    }
+    public function verifyUser(Request $request)
+    {
+        try {
+            $banners = Banner::orderByDesc('id')->where('visible',1)->get();
+            return response($banners,200);
+        }catch(\Exception $exception){
+            return $exception;
+        }
+    }
+    public function saveMessage(Request $request)
+    {
+        try {
+            $banners = Banner::orderByDesc('id')->where('visible',1)->get();
+            return response($banners,200);
+        }catch(\Exception $exception){
+            return $exception;
+        }
+    }
+
 }

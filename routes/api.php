@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('prize', App\Http\Controllers\ContentController::class);
+Route::resource('prize', App\Http\Controllers\ClientSideController::class);
 
-Route::controller(App\Http\Controllers\ContentController::class)->group(function () {
+Route::controller(App\Http\Controllers\ClientSideController::class)->group(function () {
     Route::get('/get/contents/{id}', 'contents');
     Route::get('/get/content/{slug}', 'content');
     Route::get('/get/banners', 'banners');
