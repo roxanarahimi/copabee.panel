@@ -27,6 +27,9 @@ class ContentsTable
                  TextColumn::make('title')
                     ->label('عنوان')
                    ,
+                 TextColumn::make('category.title')
+                    ->label('دسته بندی')
+                   ,
 
                 IconColumn::make('visible')
                     ->label('نمایش')
