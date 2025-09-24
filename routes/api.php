@@ -1,7 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-
 Route::options('/{any}', function (Request $request) {
     return response('', 200)
         ->header('Access-Control-Allow-Origin', 'https://asallaziz.com')
