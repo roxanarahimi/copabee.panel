@@ -21,7 +21,7 @@ class ClientSideController extends Controller
     public function content($slug)
     {
         try {
-            $contents = Content::where('visible')->where('slug',$slug)->orWhere('slug_en',$slug)->get();
+            $contents = Content::where('visible',1)->where('slug',$slug)->orWhere('slug_en',$slug)->first();
             return response(ContentResource::collection($contents),200);
         }catch(\Exception $exception){
             return $exception;
