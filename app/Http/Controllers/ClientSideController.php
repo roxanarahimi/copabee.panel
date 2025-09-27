@@ -12,7 +12,7 @@ class ClientSideController extends Controller
     public function contents($id)
     {
         try {
-            $contents = Content::where('visible',1)->where('category_id',$id)->get();
+            $contents = Content::orderByDesc('created_at')->where('visible',1)->where('category_id',$id)->get();
             return response(ContentResource::collection($contents),200);
         }catch(\Exception $exception){
             return $exception;
@@ -30,7 +30,7 @@ class ClientSideController extends Controller
     public function banners()
     {
         try {
-            $banners = Banner::orderByDesc('id')->where('visible',1)->get();
+            $banners = Banner::orderByDesc('created_at')->orderByDesc('id')->where('visible',1)->get();
             return response($banners,200);
         }catch(\Exception $exception){
             return $exception;
