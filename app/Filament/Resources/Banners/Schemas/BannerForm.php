@@ -19,7 +19,7 @@ class BannerForm
 //                    ->reorderable()
 //                    ->maxFiles(10)
                     ->imageEditor()
-                    ->imageCropAspectRatio('16:9')
+//                    ->imageCropAspectRatio('16:9')
                     ->disk('public') // or your disk
                     ->directory('img/banner')
                     ->visibility('public')
