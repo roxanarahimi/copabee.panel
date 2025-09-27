@@ -88,18 +88,17 @@ class ContentForm
                         '0' => 'خیر',
                     ]),
                 TinyEditor::make('text')
-                    ->profile('custom') // available: default, simple, full, minimal, custom
                     ->fileAttachmentsDisk('public') // storage disk
-                    ->fileAttachmentsDirectory('img/content') // folder inside disk
                     ->fileAttachmentsVisibility('public') // optional: public/private
+                    ->fileAttachmentsDirectory('img/content') // folder inside disk
+                    ->profile('custom') // available: default, simple, full, minimal, custom
                     ->columnSpanFull(),
                 TinyEditor::make('text_en')
-                    ->profile('custom') // available: default, simple, full, minimal, custom
                     ->fileAttachmentsDisk('public') // storage disk
-                    ->fileAttachmentsDirectory('img/content') // folder inside disk
                     ->fileAttachmentsVisibility('public') // optional: public/private
+                    ->fileAttachmentsDirectory('img/content') // folder inside disk
+                    ->profile('custom') // available: default, simple, full, minimal, custom
                     ->columnSpanFull(),
-
 
             ]);
     }
