@@ -26,6 +26,7 @@ class ContentsTable
                     }),
                  TextColumn::make('title')
                     ->label('عنوان')
+                ->sortable()
                    ,
                  TextColumn::make('category.title')
                     ->label('دسته بندی')
@@ -41,6 +42,7 @@ class ContentsTable
 
                 TextColumn::make('created_at')
                     ->label('تاریخ ایجاد')
+                    ->sortable()
                     ->formatStateUsing(fn($state) => explode(' ', (new DateController())->toPersian($state))[0]),
 
             ])
