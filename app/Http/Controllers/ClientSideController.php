@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ContentResource;
 use App\Models\Banner;
 use App\Models\Content;
+use http\Env\Response;
 use Illuminate\Http\Request;
+use function MongoDB\Driver\Monitoring\removeSubscriber;
 
 class ClientSideController extends Controller
 {
@@ -63,6 +65,22 @@ class ClientSideController extends Controller
         }catch(\Exception $exception){
             return $exception;
         }
+    }
+
+    public function search(Request $request)
+    {
+        $data = [];
+
+        if(count_chars($request['term'])>=3){
+            $contents = Content::orderByDesc('created_at')->where('visible',1)->where('title','Like','%'.$request['term'].'%')->get();
+            foreach ($contents as $item){
+                $data[]=["title"=>$item->title, "link"=> '/content'.$item->slug];
+            }
+
+            return response($data,200);
+
+        }
+
     }
 
 }
