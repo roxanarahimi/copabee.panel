@@ -76,10 +76,8 @@ class ClientSideController extends Controller
             foreach ($contents as $item){
                 $data[]=["title"=>$item->title, "link"=> '/content'.$item->slug];
             }
-
-            return response($data,200);
-
         }
+        return response($data,200);
 
     }
 
