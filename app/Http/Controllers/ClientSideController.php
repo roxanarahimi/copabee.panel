@@ -70,7 +70,7 @@ class ClientSideController extends Controller
     public function search(Request $request)
     {
         $data = [];
-        if(strlen($request['term'])>6){
+        if(strlen($request['term'])>4){
             $contents = Content::orderByDesc('created_at')->where('visible',1)->where('title','Like','%'.$request['term'].'%')->get();
             foreach ($contents as $item){
                 $data[]=["title"=>$item->title, "link"=> '/content'.$item->slug];
