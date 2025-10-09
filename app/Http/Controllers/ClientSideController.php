@@ -81,7 +81,7 @@ class ClientSideController extends Controller
             @$dom->loadHTML($html);
 
             $xpath = new \DOMXPath($dom);
-            $h3Nodes = $xpath->query('//h3');
+            $h3Nodes = $xpath->query('h3');
 
             $h3Texts = [];
 
