@@ -8,7 +8,6 @@ use App\Models\Content;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use function MongoDB\Driver\Monitoring\removeSubscriber;
-use Illuminate\Support\Facades\Http;
 
 class ClientSideController extends Controller
 {
@@ -73,26 +72,6 @@ class ClientSideController extends Controller
         $data = [];
         if(strlen($request['term'])>4){
             $contents = Content::orderByDesc('created_at')->where('visible',1)->where('title','Like','%'.$request['term'].'%')->get();
-            $response = Http::get('https://asallaziz.com/product');
-            $html = $response->body();
-            return $html;
-            $dom = new \DOMDocument();
-
-// Suppress warnings from malformed HTML
-            @$dom->loadHTML($html);
-
-            $xpath = new \DOMXPath($dom);
-            $h3Nodes = $xpath->query('//h3');
-
-            $h3Texts = [];
-
-            foreach ($h3Nodes as $node) {
-                $h3Texts[] = trim($node->textContent);
-            }
-
-            return  ['pages',$h3Texts];
-
-
             foreach ($contents as $item){
                 $data[]=["title"=>$item->title, "link"=> '/content/'.$item->slug];
             }
