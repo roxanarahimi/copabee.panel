@@ -75,13 +75,14 @@ class ClientSideController extends Controller
             $contents = Content::orderByDesc('created_at')->where('visible',1)->where('title','Like','%'.$request['term'].'%')->get();
             $response = Http::withoutVerifying()->get('https://asallaziz.com/product');
             $html = $response->body();
+            return $html;
             $dom = new \DOMDocument();
 
 // Suppress warnings from malformed HTML
             @$dom->loadHTML($html);
 
             $xpath = new \DOMXPath($dom);
-            $h3Nodes = $xpath->query('h3');
+            $h3Nodes = $xpath->query('//h3');
 
             $h3Texts = [];
 
