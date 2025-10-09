@@ -73,7 +73,7 @@ class ClientSideController extends Controller
         $data = [];
         if(strlen($request['term'])>4){
             $contents = Content::orderByDesc('created_at')->where('visible',1)->where('title','Like','%'.$request['term'].'%')->get();
-            $response = Http::get('https://asallaziz.com/product');
+            $response = Http::withoutVerifying()->get('https://asallaziz.com/product');
             $html = $response->body();
             $dom = new \DOMDocument();
 

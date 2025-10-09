@@ -15,3 +15,5 @@ Route::options('/{any}', function (Request $request) {
         Route::get('/search', 'search');
     });
 
+
+
