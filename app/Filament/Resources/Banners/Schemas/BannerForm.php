@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Banners\Schemas;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Michaeld555\FilamentCroppie\Components\Croppie;
 
@@ -15,6 +16,7 @@ class BannerForm
             ->components([
                 FileUpload::make('image')
                     ->label('تصویر')
+                    ->required()
 //                    ->multiple()
 //                    ->reorderable()
 //                    ->maxFiles(10)
@@ -30,13 +32,15 @@ class BannerForm
                         // Example: use timestamp + original extension
                         return 'copa-bee-banner-' . time() . '.' . $file->getClientOriginalExtension();
                     })
-                ,   FileUpload::make('image_en')
+                , FileUpload::make('image_en')
                     ->label('تصویر انگلیسی')
+
+                    ->required()
 //                    ->multiple()
 //                    ->reorderable()
 //                    ->maxFiles(10)
                     ->imageEditor()
-                    ->imageCropAspectRatio('16:9')
+//                    ->imageCropAspectRatio('16:9')
                     ->disk('public') // or your disk
                     ->directory('img/banner')
                     ->visibility('public')
@@ -45,14 +49,13 @@ class BannerForm
 //                    ->circleCropper()
                     ->getUploadedFileNameForStorageUsing(function ($file): string {
                         // Example: use timestamp + original extension
-                        return 'copa-bee-banner-en' . time() . '.' . $file->getClientOriginalExtension();
+                        return 'copa-bee-banner-en-' . time() . '.' . $file->getClientOriginalExtension();
                     })
                 ,
-//                Forms\Components\TextInput::make('link')
-//                    ->label('لینک')
-//                    ->required()
-//                    ->columnSpanFull()
-//                    ->maxLength(255),
+                TextInput::make('link')
+                    ->label('لینک')
+                    ->columnSpanFull()
+                    ->maxLength(255),
                 Select::make('visible')
                     ->label('نمایش')
                     ->options([

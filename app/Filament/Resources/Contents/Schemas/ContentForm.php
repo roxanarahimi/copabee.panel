@@ -28,6 +28,7 @@ class ContentForm
                     ->directory('img/content')
                     ->imageEditor()
                     ->imageCropAspectRatio('16:9'),
+
                 TextInput::make('title')
                     ->label('عنوان')
                     ->required()
