@@ -23,5 +23,15 @@ Route::options('/{any}', function (Request $request) {
         Route::get('/form/message', 'search');
     });
 
+    Route::controller(App\Http\Controllers\UserController::class)->group(function () {
+        Route::get('/get/user/otp', 'sendOtp');
+        Route::get('/get/user/verify', 'verifyMobile');
+
+        Route::get('/get/user/store', 'storeUser');
+        Route::get('/get/message/store', 'storeMessage');
+        Route::get('/get/collab/store', 'storeCollaboration');
+        Route::get('/get/complane/store', 'storeComplane');
+    });
+
 
 
