@@ -49,8 +49,8 @@ class UserController extends Controller
         try {
             $api = new \Kavenegar\KavenegarApi("4470686233536566795848666962306F59327335574D786772655075704668586C31415162524E717747413D");
             $sender = "10005989";
-            $message = "خدمات پیام کوتاه کاوه نگار";
-            $receptor = array("09128222725");
+            $message = $request->message;
+            $receptor = array($request->mobile);
             $result = $api->Send($sender, $receptor, $message);
             if ($result) {
                 $info = [
@@ -69,8 +69,8 @@ class UserController extends Controller
             }
             return response($info, 200);
 
-        } catch (\SoapFault $ex) {
-            echo $ex;
+        } catch(\Exception $e){
+            return $e;
         }
     }
 
