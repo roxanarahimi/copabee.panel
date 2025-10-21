@@ -24,7 +24,7 @@ class UserController extends Controller
 
             $sms = ["mobie" => $request['mobile'], "text" => $text];
             Cache::put($request['mobile'], $code, 60); // expires in 60 seconds
-            $send = $this->sendSms(Request::create($sms));
+            $send = $this->sendSms($sms);
             if ($send->status === 200) {
                 $user = User::where('mobile', $request['mobile'])->first();
                 if ($user && $user->role === 'admin') {
@@ -47,7 +47,7 @@ class UserController extends Controller
 
     }
 
-    public function sendSms(Request $request)
+    public function sendSms($request)
     {
         try {
             $api = new \Kavenegar\KavenegarApi("4470686233536566795848666962306F59327335574D786772655075704668586C31415162524E717747413D");
