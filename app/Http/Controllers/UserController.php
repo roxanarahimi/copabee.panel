@@ -50,7 +50,7 @@ class UserController extends Controller
 
     }
 
-    public function sendSms(array $request)
+    public function sendSms($request):array
     {
         try {
             $api = new \Kavenegar\KavenegarApi("4470686233536566795848666962306F59327335574D786772655075704668586C31415162524E717747413D");
@@ -78,6 +78,7 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return $e;
         }
+
     }
 
     public function verifyMobile(Request $request)
