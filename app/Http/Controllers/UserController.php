@@ -22,7 +22,7 @@ class UserController extends Controller
         کد تایید شما:
         ' . $code;
 
-            $sms = ["mobie" => $request['mobile'], "text" => $text];
+            $sms = ["mobile" => $request['mobile'], "message" => $text];
             Cache::put($request['mobile'], $code, 60); // expires in 60 seconds
             $send = $this->sendSms($sms);
             if ($send->status === 200) {
