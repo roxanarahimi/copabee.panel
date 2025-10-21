@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserResource;
 use App\Models\Collaboration;
 use App\Models\Complane;
-use http\Client\Curl\User;
-use http\Client\Response;
+use App\Models\User;
+use Illuminate\Http\Response;
 use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
-    public function sendOtp(Request $request)
+    public function sendOtp(Request $request): Response|\Exception
     {
         try {
             $code = rand(1001, 9999);
@@ -50,7 +50,7 @@ class UserController extends Controller
 
     }
 
-    public function sendSms($request): Response
+    public function sendSms($request): Response|\Exception
     {
         try {
             $api = new \Kavenegar\KavenegarApi("4470686233536566795848666962306F59327335574D786772655075704668586C31415162524E717747413D");
@@ -81,7 +81,7 @@ class UserController extends Controller
 
     }
 
-    public function verifyMobile(Request $request)
+    public function verifyMobile(Request $request): Response|\Exception
     {
         try {
             $user = User::where('mobile', $request['mobile'])->first();
@@ -98,7 +98,7 @@ class UserController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(Request $request): Response|\Exception
     {
         try {
             $user = User::create($request->all());
