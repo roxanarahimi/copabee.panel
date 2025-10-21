@@ -24,7 +24,7 @@ class UserController extends Controller
 
             $sms = ["mobie" => $request['mobile'], "text" => $text];
             Cache::put($request['mobile'], $code, 60); // expires in 60 seconds
-            $send = $this->sendSms($sms);
+            $send = $this->sendSms(Request::create($sms));
             if ($send->status === 200) {
                 $user = User::where('mobile', $request['mobile'])->first();
                 if ($user && $user->role === 'admin') {
