@@ -6,6 +6,7 @@ use App\Http\Resources\UserResource;
 use App\Models\Collaboration;
 use App\Models\Complane;
 use http\Client\Curl\User;
+use http\Client\Response;
 use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -47,7 +48,7 @@ class UserController extends Controller
 
     }
 
-    public function sendSms($request)
+    public function sendSms(array $request):object
     {
         try {
             $api = new \Kavenegar\KavenegarApi("4470686233536566795848666962306F59327335574D786772655075704668586C31415162524E717747413D");
