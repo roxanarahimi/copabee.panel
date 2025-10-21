@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ContentResource;
 use App\Models\Banner;
+use App\Models\Collaboration;
+use App\Models\Complane;
 use App\Models\Content;
 use http\Env\Response;
 use Illuminate\Http\Request;
@@ -39,34 +41,6 @@ class ClientSideController extends Controller
         }
     }
 
-    public function otp(Request $request)
-    {
-        try {
-            $banners = Banner::orderByDesc('id')->where('visible',1)->get();
-            return response($banners,200);
-        }catch(\Exception $exception){
-            return $exception;
-        }
-    }
-    public function verifyUser(Request $request)
-    {
-        try {
-            $banners = Banner::orderByDesc('id')->where('visible',1)->get();
-            return response($banners,200);
-        }catch(\Exception $exception){
-            return $exception;
-        }
-    }
-    public function saveMessage(Request $request)
-    {
-        try {
-            $banners = Banner::orderByDesc('id')->where('visible',1)->get();
-            return response($banners,200);
-        }catch(\Exception $exception){
-            return $exception;
-        }
-    }
-
     public function search(Request $request)
     {
         $data = [];
@@ -79,5 +53,33 @@ class ClientSideController extends Controller
         return response($data,200);
 
     }
+    public function storeMessage(Request $request)
+    {
+        try {
+            $message = \App\Models\Message::create($request->all());
+            return response($message, 201);
+        } catch (\Exception $exception) {
+            return $exception;
+        }
+    }
 
+    public function storeCollaboration(Request $request)
+    {
+        try {
+            $collaboration = Collaboration::create($request->all());
+            return response($collaboration, 201);
+        } catch (\Exception $exception) {
+            return $exception;
+        }
+    }
+
+    public function storeComplane(Request $request)
+    {
+        try {
+            $complane = Complane::create($request->all());
+            return response($complane, 201);
+        } catch (\Exception $exception) {
+            return $exception;
+        }
+    }
 }

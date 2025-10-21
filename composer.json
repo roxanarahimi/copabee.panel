@@ -9,11 +9,12 @@
         "php": "^8.4",
         "ext-gd": "*",
         "ext-intl": "*",
+        "ext-soap": "*",
         "amidesfahani/filament-tinyeditor": "^4.0",
         "filament/filament": "4.0",
+        "kavenegar/php": "^1.2",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1",
-        "ext-http": "*"
+        "laravel/tinker": "^2.10.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

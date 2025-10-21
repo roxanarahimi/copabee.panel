@@ -9,6 +9,7 @@ use http\Client\Curl\User;
 use http\Message;
 use Illuminate\Http\Request;
 
+
 class UserController extends Controller
 {
     public function sendOtp(Request $request)
@@ -27,9 +28,15 @@ class UserController extends Controller
                     return response(['message' => 'این شماره قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
                 }
                 if (!$user) {
-                    $this->storeUser($request);
+                    $user = $this->store($request->all('mobile', 'type', 'name', 'email', 'city_id'));
                 }
-                return response(['message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
+                //save code in db ....
+                $sms = $this->sendSms(['mobile' => $request->mobile, 'text' => $text]);
+                if ($sms->status === 200) {
+                    return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
+                } else {
+                    return $sms;
+                }
             }
         } catch (\Exception $exception) {
             return $exception;
@@ -39,61 +46,55 @@ class UserController extends Controller
 
     public function sendSms(Request $request)
     {
-        //.......
-        return response(['message' => 'پیامک با موفقیت ارسال شد.'], 200);
+        try {
+            $api = new \Kavenegar\KavenegarApi("4470686233536566795848666962306F59327335574D786772655075704668586C31415162524E717747413D");
+            $sender = "10005989";
+            $message = "خدمات پیام کوتاه کاوه نگار";
+            $receptor = array("09128222725");
+            $result = $api->Send($sender, $receptor, $message);
+            if ($result) {
+                $info = [
+                    "messageid" => $result->messageid,
+                    "message" => $result->message,
+                    "status" => $result->status,
+                    "statustext" => $result->statustext,
+                    "sender" => $result->sender,
+                    "receptor" => $result->receptor,
+                    "date" => $result->date,
+                    "cost" => $result->cost
+                ];
+
+            }
+            return response($info, 200);
+
+        } catch (\SoapFault $ex) {
+            echo $ex;
+        }
     }
 
     public function verifyMobile(Request $request)
     {
         try {
             $user = User::where('mobile', $request['mobile'])->first();
-            if ($user->otp === $request['otp']) {
-                return response(['message'=>'شماره موبایل با موفقیت تایید شد.'],200);
-            }else{
-                return response(['message'=>'کد تایید وارد شده اشتباه است.'],422);
+            if ($user->otp === $request['codemobile']) {
+                return response(['message' => 'شماره موبایل با موفقیت تایید شد.'], 200);
+            } else {
+                return response(['message' => 'کد تایید وارد شده اشتباه است.'], 422);
             }
         } catch (\Exception $exception) {
             return $exception;
         }
     }
 
-    public function storeUser(Request $request)
+    public function store(Request $request)
     {
         try {
-            $user = User::create($request->all('mobile','type'));
-            return response(new UserResource($user),201);
+            $user = User::create($request->all());
+            return response($user, 201);
         } catch (\Exception $exception) {
             return $exception;
         }
     }
 
-    public function storeMessage(Request $request)
-    {
-        try {
-            $message = \App\Models\Message::create($request->all());
-            return response($message,201);
-        } catch (\Exception $exception) {
-            return $exception;
-        }
-    }
 
-    public function storeCollaboration(Request $request)
-    {
-        try {
-            $collaboration = Collaboration::create($request->all());
-            return response($collaboration,201);
-        } catch (\Exception $exception) {
-            return $exception;
-        }
-    }
-
-    public function storeComplane(Request $request)
-    {
-        try {
-            $complane = Complane::create($request->all());
-            return response($complane,201);
-        } catch (\Exception $exception) {
-            return $exception;
-        }
-    }
 }

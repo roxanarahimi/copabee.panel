@@ -33,5 +33,10 @@ Route::options('/{any}', function (Request $request) {
         Route::get('/get/complane/store', 'storeComplane');
     });
 
+  Route::controller(App\Http\Controllers\UserController::class)->group(function () {
+        Route::post('/test', 'sendSms');
+
+    });
+
 
 
