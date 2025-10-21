@@ -46,10 +46,11 @@ class UserController extends Controller
         } catch (\Exception $exception) {
             return $exception;
         }
+        return response(['message' => 'خطا در ارسال پیامک. لطفا دوباره تلاش کنید.'], 500);
 
     }
 
-    public function sendSms(array $request):object
+    public function sendSms(array $request)
     {
         try {
             $api = new \Kavenegar\KavenegarApi("4470686233536566795848666962306F59327335574D786772655075704668586C31415162524E717747413D");
