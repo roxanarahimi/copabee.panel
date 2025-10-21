@@ -64,6 +64,8 @@ class UserController extends Controller
                     "cost" => $result->cost
                 ];
 
+            }else{
+                $info = $result;
             }
             return response($info, 200);
 
