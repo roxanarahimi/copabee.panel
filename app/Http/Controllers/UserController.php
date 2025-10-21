@@ -7,7 +7,6 @@ use App\Models\Collaboration;
 use App\Models\Complane;
 use App\Models\User;
 use Illuminate\Http\Response;
-use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -15,40 +14,40 @@ use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
-    public function sendOtp(Request $request): Response|\Exception
-    {
-        try {
-            $code = rand(1001, 9999);
-            $text = ' به کوپابی خوش آمدید.
-        کد تایید شما:
-        ' . $code;
-
-            $sms = ["mobile" => $request['mobile'], "message" => $text];
-            Cache::put($request['mobile'], $code, 60); // expires in 60 seconds
-            $send = $this->sendSms($sms);
-
-            if ($send->status === 200) {
-                $user = User::where('mobile', $request['mobile'])->first();
-                if ($user && $user->role === 'admin') {
-                    return response(['message' => 'این شماره قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
-                }
-                if (!$user) {
-                    $user = $this->store($request->all('mobile', 'type', 'name', 'email', 'city_id'));
-                }
-                //save code in db ....
-                $sms = $this->sendSms(['mobile' => $request->mobile, 'text' => $text]);
-                if ($sms['status'] === 200) {
-                    return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
-                } else {
-                    return response($sms,$sms['status']);
-                }
-            }
-        } catch (\Exception $exception) {
-            return $exception;
-        }
-        return response(['message' => 'خطا در ارسال پیامک. لطفا دوباره تلاش کنید.'], 500);
-
-    }
+//    public function sendOtp(Request $request): Response|\Exception
+//    {
+//        try {
+//            $code = rand(1001, 9999);
+//            $text = ' به کوپابی خوش آمدید.
+//        کد تایید شما:
+//        ' . $code;
+//
+//            $sms = ["mobile" => $request['mobile'], "message" => $text];
+//            Cache::put($request['mobile'], $code, 60); // expires in 60 seconds
+//            $send = $this->sendSms($sms);
+//
+//            if ($send->status === 200) {
+//                $user = User::where('mobile', $request['mobile'])->first();
+//                if ($user && $user->role === 'admin') {
+//                    return response(['message' => 'این شماره قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
+//                }
+//                if (!$user) {
+//                    $user = $this->store($request->all('mobile', 'type', 'name', 'email', 'city_id'));
+//                }
+//                //save code in db ....
+//                $sms = $this->sendSms(['mobile' => $request->mobile, 'text' => $text]);
+//                if ($sms['status'] === 200) {
+//                    return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
+//                } else {
+//                    return response($sms,$sms['status']);
+//                }
+//            }
+//        } catch (\Exception $exception) {
+//            return $exception;
+//        }
+//        return response(['message' => 'خطا در ارسال پیامک. لطفا دوباره تلاش کنید.'], 500);
+//
+//    }
 
     public function sendSms($request): Response|\Exception
     {
