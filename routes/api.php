@@ -24,13 +24,13 @@ Route::options('/{any}', function (Request $request) {
     });
 
     Route::controller(App\Http\Controllers\UserController::class)->group(function () {
-        Route::post('/get/user/otp', 'sendOtp');
-        Route::post('/get/user/verify', 'verifyMobile');
+        Route::post('/user/otp', 'sendOtp');
+        Route::post('/user/verify', 'verifyMobile');
 
-        Route::post('/get/user/store', 'storeUser');
-        Route::post('/get/message/store', 'storeMessage');
-        Route::post('/get/collab/store', 'storeCollaboration');
-        Route::post('/get/complane/store', 'storeComplane');
+        Route::post('/user/store', 'storeUser');
+        Route::post('/message/store', 'storeMessage');
+        Route::post('/collab/store', 'storeCollaboration');
+        Route::post('/complane/store', 'storeComplane');
     });
 
   Route::controller(App\Http\Controllers\UserController::class)->group(function () {
