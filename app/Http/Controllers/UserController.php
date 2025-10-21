@@ -26,6 +26,7 @@ class UserController extends Controller
             $sms = ["mobile" => $request['mobile'], "message" => $text];
             Cache::put($request['mobile'], $code, 60); // expires in 60 seconds
             $send = $this->sendSms($sms);
+
             if ($send->status === 200) {
                 $user = User::where('mobile', $request['mobile'])->first();
                 if ($user && $user->role === 'admin') {
@@ -36,10 +37,10 @@ class UserController extends Controller
                 }
                 //save code in db ....
                 $sms = $this->sendSms(['mobile' => $request->mobile, 'text' => $text]);
-                if ($sms->status === 200) {
+                if ($sms['status'] === 200) {
                     return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
                 } else {
-                    return $sms;
+                    return response($sms,$sms['status']);
                 }
             }
         } catch (\Exception $exception) {
