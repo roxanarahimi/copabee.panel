@@ -8,7 +8,7 @@ use App\Models\Complane;
 use http\Client\Curl\User;
 use http\Message;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Cache;//redis
 
 class UserController extends Controller
 {
@@ -21,6 +21,7 @@ class UserController extends Controller
         ' . $code;
 
             $sms = ["mobie" => $request['mobile'], "text" => $text];
+            Cache::put($request['mobile'], $code, 600); // expires in 600 seconds
             $send = $this->sendSms($sms);
             if ($send->status === 200) {
                 $user = User::where('mobile', $request['mobile'])->first();
