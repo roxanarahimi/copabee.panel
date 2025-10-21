@@ -8,7 +8,9 @@ use App\Models\Complane;
 use http\Client\Curl\User;
 use http\Message;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;//redis
+use Illuminate\Support\Facades\Cache;
+
+//redis
 
 class UserController extends Controller
 {
@@ -21,7 +23,7 @@ class UserController extends Controller
         ' . $code;
 
             $sms = ["mobie" => $request['mobile'], "text" => $text];
-            Cache::put($request['mobile'], $code, 600); // expires in 600 seconds
+            Cache::put($request['mobile'], $code, 60); // expires in 60 seconds
             $send = $this->sendSms($sms);
             if ($send->status === 200) {
                 $user = User::where('mobile', $request['mobile'])->first();
@@ -65,12 +67,12 @@ class UserController extends Controller
                     "cost" => $result[0]->cost
                 ];
 
-            }else{
+            } else {
                 $info = $result;
             }
             return response($info, 200);
 
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             return $e;
         }
     }
@@ -79,8 +81,11 @@ class UserController extends Controller
     {
         try {
             $user = User::where('mobile', $request['mobile'])->first();
-            if ($user->otp === $request['codemobile']) {
-                return response(['message' => 'شماره موبایل با موفقیت تایید شد.'], 200);
+            if (Cache::get($request['mobile']) === $request['code']) {
+                return response([
+                    'message' => 'شماره موبایل با موفقیت تایید شد.',
+                    'user' => $user],
+                    200);
             } else {
                 return response(['message' => 'کد تایید وارد شده اشتباه است.'], 422);
             }
