@@ -38,15 +38,15 @@ class UserController extends Controller
                 'message' => $text,
             ]);
 
-//            $send = $this->sendSms($sms);
-//            Cache::put($request['mobile'], $code, 60);
-////            return $send;
-//            if ($send->getStatusCode() === 200) {    //save code in db ....
+            $send = $this->sendSms($sms);
+            Cache::put($request['mobile'], $code, 60);
+//            return $send;
+            if ($send->getStatusCode() === 200) {
                 return response(['user' => $user, 'message' => 'کد تایید ارسال شد.'], 200);
 
-//            } else {
-//                return $send;
-//            }
+            } else {
+                return $send;
+            }
         } catch (\Exception $exception) {
             return $exception;
         }
