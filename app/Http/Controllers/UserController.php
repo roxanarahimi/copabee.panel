@@ -35,17 +35,14 @@ class UserController extends Controller
                     $user = $this->store($request->all('mobile', 'type', 'name', 'email', 'city_id'));
                 }
                 //save code in db ....
-                $sms = $this->sendSms(['mobile' => $request->mobile, 'text' => $text]);
-                if ($sms->status === 200) {
-                    return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
-                } else {
-                    return $sms;
-                }
+                return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
+
+            } else {
+                return $sms;
             }
         } catch (\Exception $exception) {
             return $exception;
         }
-        return response([ 'message' => 'خطا، لطفا دوباره تلاش کنید.'], 500);
     }
 
     public function sendSms(Request $request)
@@ -68,16 +65,15 @@ class UserController extends Controller
                     "cost" => $result[0]->cost
                 ];
 
-            }else{
+            } else {
                 $info = $result;
             }
             return response($info, 200);
 
-        } catch(\Kavenegar\Exceptions\ApiException $e){
+        } catch (\Kavenegar\Exceptions\ApiException $e) {
             // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
             return $e->errorMessage();
-        }
-        catch(\Kavenegar\Exceptions\HttpException $e){
+        } catch (\Kavenegar\Exceptions\HttpException $e) {
             // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
             return $e->errorMessage();
         }
