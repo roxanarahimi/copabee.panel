@@ -20,15 +20,6 @@ class UserController extends Controller
             if ($user && $user->role === 'admin') {
                 return response(['message' => 'این شماره موبایل قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
             }
-            if (!$user) {
-                $fields = new Request([
-                    'mobile' => $request['mobile'],
-                    'type' => $request['type'],
-                    'name' => $request['name'],
-                    'email' => $request['email']//'city_id'
-                ]);
-                $user = $this->store($fields);
-            }
             $code = rand(1001, 9999);
             $text = ' به کوپابی خوش آمدید.
         کد تایید شما:
@@ -42,7 +33,7 @@ class UserController extends Controller
             Cache::put($request['mobile'], $code, 60);
 //            return $send;
             if ($send->getStatusCode() === 200) {
-                return response(['user' => $user, 'message' => 'کد تایید ارسال شد.'], 200);
+                return response(['message' => 'کد تایید ارسال شد.'], 200);
 
             } else {
                 return $send;
@@ -89,10 +80,19 @@ class UserController extends Controller
     public function verifyMobile(Request $request)
     {
         try {
-            $user = User::where('mobile', $request['mobile'])->first();
             $code = Cache::get($request['mobile']);
             if ($code === $request['code']) {
-                return response(['message' => 'شماره موبایل با موفقیت تایید شد.'], 200);
+                $user = User::where('mobile', $request['mobile'])->first();
+                if (!$user) {
+                    $fields = new Request([
+                        'mobile' => $request['mobile'],
+                        'type' => $request['type'],
+                        'name' => $request['name'],
+                        'email' => $request['email']//'city_id'
+                    ]);
+                    $user = $this->store($fields);
+                }
+                return response(['user'=>$user,'message' => 'شماره موبایل با موفقیت تایید شد.'], 200);
             } else {
                 return response(['message' => 'کد وارد شده اشتباه است.'], 422);
             }
