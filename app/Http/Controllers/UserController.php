@@ -9,7 +9,7 @@ use App\Models\User;
 use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
@@ -25,10 +25,9 @@ class UserController extends Controller
                     'mobile' => $request['mobile'],
                     'type' => $request['type'],
                     'name' => $request['name'],
-                    'email' => $request['email']
+                    'email' => $request['email']//'city_id'
                 ]);
-                $user = $this->store($fields); //'city_id'
-//                $user = null;
+                $user = $this->store($fields);
             }
             $code = rand(1001, 9999);
             $text = ' به کوپابی خوش آمدید.
@@ -40,6 +39,7 @@ class UserController extends Controller
             ]);
 
             $send = $this->sendSms($sms);
+            Cache::put($request['mobile'], $code, 60);
 //            return $send;
             if ($send->getStatusCode() === 200) {    //save code in db ....
                 return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
@@ -90,7 +90,8 @@ class UserController extends Controller
     {
         try {
             $user = User::where('mobile', $request['mobile'])->first();
-            if ($user->otp === $request['codemobile']) {
+            $code = Cache::get($request['mobile']);
+            if ($code === $request['code']) {
                 return response(['message' => 'شماره موبایل با موفقیت تایید شد.'], 200);
             } else {
                 return response(['message' => 'کد تایید وارد شده اشتباه است.'], 422);
