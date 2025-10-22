@@ -13,45 +13,45 @@ use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
-//    public function sendOtp(Request $request)
-//    {
-//        try {
-//            $code = rand(1001, 9999);
-//            $text = ' به کوپابی خوش آمدید.
-//        کد تایید شما:
-//        ' . $code;
-//
-//            $sms = ["mobie" => $request['mobile'], "text" => $text];
-//            $send = $this->sendSms($sms);
-//            if ($send->status === 200) {
-//                $user = User::where('mobile', $request['mobile'])->first();
-//                if ($user && $user->role === 'admin') {
-//                    return response(['message' => 'این شماره قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
-//                }
-//                if (!$user) {
-//                    $user = $this->store($request->all('mobile', 'type', 'name', 'email', 'city_id'));
-//                }
-//                //save code in db ....
-//                $sms = $this->sendSms(['mobile' => $request->mobile, 'text' => $text]);
-//                if ($sms->status === 200) {
-//                    return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
-//                } else {
-//                    return $sms;
-//                }
-//            }
-//        } catch (\Exception $exception) {
-//            return $exception;
-//        }
-//
-//    }
+    public function sendOtp(Request $request)
+    {
+        try {
+            $code = rand(1001, 9999);
+            $text = ' به کوپابی خوش آمدید.
+        کد تایید شما:
+        ' . $code;
 
-    public function sendSms(Request $request): Response
+            $sms = ["mobile" => $request['mobile'], "message" => $text];
+            $send = $this->sendSms($sms);
+            if ($send->status === 200) {
+                $user = User::where('mobile', $request['mobile'])->first();
+                if ($user && $user->role === 'admin') {
+                    return response(['message' => 'این شماره قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
+                }
+                if (!$user) {
+                    $user = $this->store($request->all('mobile', 'type', 'name', 'email', 'city_id'));
+                }
+                //save code in db ....
+                $sms = $this->sendSms(['mobile' => $request->mobile, 'text' => $text]);
+                if ($sms->status === 200) {
+                    return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
+                } else {
+                    return $sms;
+                }
+            }
+        } catch (\Exception $exception) {
+            return $exception;
+        }
+
+    }
+
+    public function sendSms(Request $request)
     {
         try {
             $api = new \Kavenegar\KavenegarApi("4470686233536566795848666962306F59327335574D786772655075704668586C31415162524E717747413D");
             $sender = "10005989";
-            $message = "خدمات پیام کوتاه کاوه نگار";
-            $receptor = array("09128222725");
+            $message = $request['message'];
+            $receptor = array($request['mobile']);
             $result = $api->Send($sender, $receptor, $message);
             if ($result) {
                 $info = [
