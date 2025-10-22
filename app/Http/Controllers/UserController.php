@@ -21,7 +21,7 @@ class UserController extends Controller
                 return response(['message' => 'این شماره قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
             }
             if (!$user) {
-                $user = $this->store($request->all('mobile', 'type', 'name', 'email', 'city_id'));
+                $user = $this->store($request->all('mobile', 'type', 'name', 'email')); //'city_id'
             }
             $code = rand(1001, 9999);
             $text = ' به کوپابی خوش آمدید.
