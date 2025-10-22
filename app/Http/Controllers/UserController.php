@@ -21,17 +21,19 @@ class UserController extends Controller
                 return response(['message' => 'این شماره قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
             }
             if (!$user) {
-                $user = $this->store($request->all('mobile', 'type', 'name', 'email')); //'city_id'
+//                $user = $this->store($request->all('mobile', 'type', 'name', 'email')); //'city_id'
+                $user = null;
             }
             $code = rand(1001, 9999);
             $text = ' به کوپابی خوش آمدید.
         کد تایید شما:
         ' . $code;
-            $sms = new Request();
+            $sms = new Request([
+                'mobile'  => $request->mobile,
+                'message' => $text,
+            ]);
 
-            $sms['mobile'] = $request->mobile;
-            $sms['message'] = $text;
-            $send = $this->sendSms($request['mobile'],$text);
+            $send = $this->sendSms($sms);
             return $send;
             if ($send->status === 200) {    //save code in db ....
                 return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
