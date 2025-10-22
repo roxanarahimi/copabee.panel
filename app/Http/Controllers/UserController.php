@@ -16,25 +16,24 @@ class UserController extends Controller
     public function sendOtp(Request $request)
     {
         try {
+            $user = User::where('mobile', $request['mobile'])->first();
+            if ($user && $user->role === 'admin') {
+                return response(['message' => 'این شماره قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
+            }
+            if (!$user) {
+                $user = $this->store($request->all('mobile', 'type', 'name', 'email', 'city_id'));
+            }
             $code = rand(1001, 9999);
             $text = ' به کوپابی خوش آمدید.
         کد تایید شما:
         ' . $code;
-
             $sms = new Request();
 
             $sms['mobile'] = $request->mobile;
             $sms['message'] = $text;
             $send = $this->sendSms($sms);
-            if ($send->status === 200) {
-                $user = User::where('mobile', $request['mobile'])->first();
-                if ($user && $user->role === 'admin') {
-                    return response(['message' => 'این شماره قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
-                }
-                if (!$user) {
-                    $user = $this->store($request->all('mobile', 'type', 'name', 'email', 'city_id'));
-                }
-                //save code in db ....
+            return $send;
+            if ($send->status === 200) {    //save code in db ....
                 return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
 
             } else {
@@ -72,10 +71,10 @@ class UserController extends Controller
 
         } catch (\Kavenegar\Exceptions\ApiException $e) {
             // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
-            return $e->errorMessage();
+            return $e;
         } catch (\Kavenegar\Exceptions\HttpException $e) {
             // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
-            return $e->errorMessage();
+            return $e;
         }
     }
 
