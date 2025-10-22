@@ -21,7 +21,10 @@ class UserController extends Controller
         کد تایید شما:
         ' . $code;
 
-            $sms = ["mobile" => $request['mobile'], "message" => $text];
+            $sms = new Request();
+
+            $sms->mobile = $request->mobile;
+            $sms->message = $text;
             $send = $this->sendSms($sms);
             if ($send->status === 200) {
                 $user = User::where('mobile', $request['mobile'])->first();
@@ -42,7 +45,7 @@ class UserController extends Controller
         } catch (\Exception $exception) {
             return $exception;
         }
-
+        return response([ 'message' => 'خطا، لطفا دوباره تلاش کنید.'], 500);
     }
 
     public function sendSms(Request $request)
