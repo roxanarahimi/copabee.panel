@@ -25,7 +25,6 @@ class UserController extends Controller
 
             $sms['mobile'] = $request->mobile;
             $sms['message'] = $text;
-            return $sms;
             $send = $this->sendSms($sms);
             return $send;
             if ($send->status === 200) {
