@@ -55,14 +55,14 @@ class UserController extends Controller
             $result = $api->Send($sender, $receptor, $message);
             if ($result) {
                 $info = [
-                    "messageid" => $result->messageid,
-                    "message" => $result->message,
-                    "status" => $result->status,
-                    "statustext" => $result->statustext,
-                    "sender" => $result->sender,
-                    "receptor" => $result->receptor,
-                    "date" => $result->date,
-                    "cost" => $result->cost
+                    "messageid" => $result[0]->messageid,
+                    "message" => $result[0]->message,
+                    "status" => $result[0]->status,
+                    "statustext" => $result[0]->statustext,
+                    "sender" => $result[0]->sender,
+                    "receptor" => $result[0]->receptor,
+                    "date" => $result[0]->date,
+                    "cost" => $result[0]->cost
                 ];
 
             }else{
