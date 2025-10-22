@@ -26,7 +26,6 @@ class UserController extends Controller
             $sms['mobile'] = $request->mobile;
             $sms['message'] = $text;
             $send = $this->sendSms($sms);
-            return $send;
             if ($send->status === 200) {
                 $user = User::where('mobile', $request['mobile'])->first();
                 if ($user && $user->role === 'admin') {
