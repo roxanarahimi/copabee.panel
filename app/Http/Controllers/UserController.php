@@ -21,7 +21,8 @@ class UserController extends Controller
                 return response(['message' => 'این شماره قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
             }
             if (!$user) {
-                $user = $this->store($request->only(['mobile', 'type', 'name', 'email'])); //'city_id'
+                $fields = new Request($request->only(['mobile', 'type', 'name', 'email']));
+                $user = $this->store($fields); //'city_id'
 //                $user = null;
             }
             $code = rand(1001, 9999);
