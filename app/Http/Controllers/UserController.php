@@ -21,7 +21,12 @@ class UserController extends Controller
                 return response(['message' => 'این شماره قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
             }
             if (!$user) {
-                $fields = new Request($request->only(['mobile', 'type', 'name', 'email']));
+                $fields = new Request([
+                    'mobile' => $request['mobile'],
+                    'type' => $request['type'],
+                    'name' => $request['name'],
+                    'email' => $request['email']
+                ]);
                 $user = $this->store($fields); //'city_id'
 //                $user = null;
             }
@@ -30,7 +35,7 @@ class UserController extends Controller
         کد تایید شما:
         ' . $code;
             $sms = new Request([
-                'mobile'  => $request->mobile,
+                'mobile' => $request->mobile,
                 'message' => $text,
             ]);
 
