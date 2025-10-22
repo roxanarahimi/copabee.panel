@@ -23,8 +23,8 @@ class UserController extends Controller
 
             $sms = new Request();
 
-            $sms->mobile = $request->mobile;
-            $sms->message = $text;
+            $sms['mobile'] = $request->mobile;
+            $sms['message'] = $text;
             return $sms;
             $send = $this->sendSms($sms);
             return $send;
