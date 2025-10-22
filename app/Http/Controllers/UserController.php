@@ -21,8 +21,8 @@ class UserController extends Controller
                 return response(['message' => 'این شماره قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
             }
             if (!$user) {
-//                $user = $this->store($request->all('mobile', 'type', 'name', 'email')); //'city_id'
-                $user = null;
+                $user = $this->store($request->only(['mobile', 'type', 'name', 'email'])); //'city_id'
+//                $user = null;
             }
             $code = rand(1001, 9999);
             $text = ' به کوپابی خوش آمدید.
@@ -94,7 +94,7 @@ class UserController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(Request $request): Response
     {
         try {
             $user = User::create($request->all());
