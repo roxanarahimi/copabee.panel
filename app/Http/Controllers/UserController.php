@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserResource;
 use App\Models\Collaboration;
 use App\Models\Complane;
-use http\Client\Curl\User;
+use App\Models\User;
 use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -38,7 +38,7 @@ class UserController extends Controller
                 return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
 
             } else {
-                return $sms;
+                return $send;
             }
         } catch (\Exception $exception) {
             return $exception;
