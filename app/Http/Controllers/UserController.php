@@ -34,7 +34,7 @@ class UserController extends Controller
             ]);
 
             $send = $this->sendSms($sms);
-            return $send;
+//            return $send;
             if ($send->getStatusCode() === 200) {    //save code in db ....
                 return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
 
