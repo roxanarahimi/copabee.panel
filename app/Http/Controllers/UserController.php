@@ -18,7 +18,7 @@ class UserController extends Controller
         try {
             $user = User::where('mobile', $request['mobile'])->first();
             if ($user && $user->role === 'admin') {
-                return response(['message' => 'این شماره قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
+                return response(['message' => 'این شماره موبایل قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
             }
             if (!$user) {
                 $fields = new Request([
@@ -38,15 +38,15 @@ class UserController extends Controller
                 'message' => $text,
             ]);
 
-            $send = $this->sendSms($sms);
-            Cache::put($request['mobile'], $code, 60);
-//            return $send;
-            if ($send->getStatusCode() === 200) {    //save code in db ....
-                return response(['user' => $user, 'message' => 'کد تایید برای شما پیامک شد. لطفا در کادر زیر وارد کنید.'], 200);
+//            $send = $this->sendSms($sms);
+//            Cache::put($request['mobile'], $code, 60);
+////            return $send;
+//            if ($send->getStatusCode() === 200) {    //save code in db ....
+                return response(['user' => $user, 'message' => 'کد تایید ارسال شد.'], 200);
 
-            } else {
-                return $send;
-            }
+//            } else {
+//                return $send;
+//            }
         } catch (\Exception $exception) {
             return $exception;
         }
@@ -94,7 +94,7 @@ class UserController extends Controller
             if ($code === $request['code']) {
                 return response(['message' => 'شماره موبایل با موفقیت تایید شد.'], 200);
             } else {
-                return response(['message' => 'کد تایید وارد شده اشتباه است.'], 422);
+                return response(['message' => 'کد وارد شده اشتباه است.'], 422);
             }
         } catch (\Exception $exception) {
             return $exception;

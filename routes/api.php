@@ -14,23 +14,22 @@ Route::options('/{any}', function (Request $request) {
         Route::get('/get/content/{slug}', 'content');
         Route::get('/get/banners', 'banners');
         Route::get('/search', 'search');
-        Route::post('/get/otp', 'otp');
-        Route::post('/mobile/verify', 'verify');
 
         Route::post('/register', 'register');
         Route::get('/form/contact', 'search');
         Route::get('/form/collaborate', 'search');
         Route::get('/form/message', 'search');
+
+        Route::post('/message/store', 'storeMessage');
+        Route::post('/collab/store', 'storeCollaboration');
+        Route::post('/complane/store', 'storeComplane');
+
     });
 
     Route::controller(App\Http\Controllers\UserController::class)->group(function () {
         Route::post('/user/otp', 'sendOtp');
         Route::post('/user/verify', 'verifyMobile');
-
         Route::post('/user/store', 'storeUser');
-        Route::post('/message/store', 'storeMessage');
-        Route::post('/collab/store', 'storeCollaboration');
-        Route::post('/complane/store', 'storeComplane');
     });
 
   Route::controller(App\Http\Controllers\UserController::class)->group(function () {
