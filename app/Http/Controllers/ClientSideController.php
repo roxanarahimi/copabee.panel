@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ContentResource;
 use App\Models\Banner;
+use App\Models\City;
 use App\Models\Collaboration;
 use App\Models\Complane;
 use App\Models\Content;
+use App\Models\Province;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use function MongoDB\Driver\Monitoring\removeSubscriber;
@@ -79,6 +81,34 @@ class ClientSideController extends Controller
             $complane = Complane::create($request->all());
             return response($complane, 201);
         } catch (\Exception $exception) {
+            return $exception;
+        }
+    }
+
+    public function getProvinces()
+    {
+        try {
+            $data = Province::orderBy('name')->get();
+            return response($data,200);
+        }catch(\Exception $exception){
+            return $exception;
+        }
+    }
+    public function getProvinceCities($id)
+    {
+        try {
+            $data = City::orderBy('name')->where('province_id',$id)->get();
+            return response($data,200);
+        }catch(\Exception $exception){
+            return $exception;
+        }
+    }
+    public function getCities()
+    {
+        try {
+            $data = City::orderBy('name')->get();
+            return response($data,200);
+        }catch(\Exception $exception){
             return $exception;
         }
     }
