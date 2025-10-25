@@ -94,19 +94,16 @@ class ClientSideController extends Controller
             return $exception;
         }
     }
-    public function getProvinceCities($id)
+
+
+    public function getCities(Request $request)
     {
         try {
-            $data = City::orderBy('name')->where('province_id',$id)->get();
-            return response($data,200);
-        }catch(\Exception $exception){
-            return $exception;
-        }
-    }
-    public function getCities()
-    {
-        try {
-            $data = City::orderBy('name')->get();
+            if ($request['id']){
+                $data = City::orderBy('name')->where('province_id',$request['province_id'])->get();
+            }else{
+                $data = City::orderBy('name')->get();
+            }
             return response($data,200);
         }catch(\Exception $exception){
             return $exception;

@@ -27,7 +27,6 @@ Route::controller(App\Http\Controllers\ClientSideController::class)->group(funct
     Route::post('/complane/store', 'storeComplane');
 
     Route::get('/province', 'getProvinces');
-    Route::get('/province/city/{id}', 'getProvinceCities');
     Route::get('/city', 'getCities');
 
 });
