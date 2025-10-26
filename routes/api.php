@@ -26,8 +26,8 @@ Route::controller(App\Http\Controllers\ClientSideController::class)->group(funct
     Route::post('/collab/store', 'storeCollaboration');
     Route::post('/complane/store', 'storeComplane');
 
-    Route::get('/province', 'getProvinces');
-    Route::get('/city', 'getCities');
+    Route::get('/get/provinces', 'getProvinces');
+    Route::get('/get/cities', 'getCities');
 
 });
 
