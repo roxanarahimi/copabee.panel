@@ -43,4 +43,3 @@ Route::controller(App\Http\Controllers\UserController::class)->group(function ()
 });
 
 
-
