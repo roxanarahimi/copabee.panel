@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BannerResource;
 use App\Http\Resources\ContentResource;
 use App\Models\Banner;
 use App\Models\City;
@@ -37,7 +38,7 @@ class ClientSideController extends Controller
     {
         try {
             $banners = Banner::orderByDesc('created_at')->orderByDesc('id')->where('visible',1)->get();
-            return response($banners,200);
+            return response(BannerResource::collection($banners),200);
         }catch(\Exception $exception){
             return $exception;
         }
