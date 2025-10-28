@@ -18,8 +18,8 @@ class BannerResource extends JsonResource
             'id'=> $this->id,
             'image'=> $this->image,
             'image_en'=> $this->image_en,
-            'link'=> urldecode($this->link),
-            'link_en'=> urldecode($this->link_en),
+            'link'=> mb_convert_encoding(urldecode($this->link), 'UTF-8', 'UTF-8'),
+            'link_en'=> mb_convert_encoding(urldecode($this->link_en), 'UTF-8', 'UTF-8'),
             'visible'=> $this->visible,
         ];
     }
