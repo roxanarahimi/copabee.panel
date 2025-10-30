@@ -100,7 +100,7 @@ class ClientSideController extends Controller
     public function getCities(Request $request)
     {
         try {
-            if ($request['id']){
+            if ($request['province_id']){
                 $data = City::orderBy('name')->where('province_id',$request['province_id'])->get();
             }else{
                 $data = City::orderBy('name')->get();
