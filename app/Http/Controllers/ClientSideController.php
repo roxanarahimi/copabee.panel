@@ -77,20 +77,10 @@ class ClientSideController extends Controller
                 // ✅ Generate public URL (after storage:link)
                 $url = asset('storage/' . $path);
 
-                $uploadedFiles[] = [
-                    'original_name' => $file->getClientOriginalName(),
-                    'path' => $path,
-                    'url' => $url,
-                ];
+                $uploadedFiles[] = $path;
             }
-
-            return response()->json([
-                'message' => 'Files uploaded successfully!',
-                'files' => $uploadedFiles,
-            ]);
-
-            return 1;
             $collaboration = Collaboration::create($request->except('images'));
+            $collaboration->update(['images' => $uploadedFiles]);
             return response($collaboration, 201);
         } catch (\Exception $exception) {
             return $exception;
