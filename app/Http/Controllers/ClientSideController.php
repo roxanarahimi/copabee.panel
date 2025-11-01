@@ -66,7 +66,7 @@ class ClientSideController extends Controller
         }
     }
 
-    public function storeCollaboration($request)
+    public function storeCollaboration(Request $request)
     {
         try {
             $collaboration = Collaboration::create($request->except('images'));
