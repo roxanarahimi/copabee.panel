@@ -79,7 +79,7 @@ class ClientSideController extends Controller
                 $uploadedFiles[] = $path;
             }
             $collaboration = Collaboration::create($request->except('images'));
-            $collaboration->update(['images' => json_decode($uploadedFiles) ]);
+            $collaboration->update(['images' => json_encode($uploadedFiles) ]);
             return response($collaboration, 201);
         } catch (\Exception $exception) {
             return $exception;
