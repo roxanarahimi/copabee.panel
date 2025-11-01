@@ -69,6 +69,7 @@ class ClientSideController extends Controller
     public function storeCollaboration(Request $request)
     {
         try {
+            return $request;
             $collaboration = Collaboration::create($request->all());
             return response($collaboration, 201);
         } catch (\Exception $exception) {
