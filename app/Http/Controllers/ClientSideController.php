@@ -66,7 +66,7 @@ class ClientSideController extends Controller
         }
     }
 
-    public function storeCollaboration(Request $request)
+    public function storeCollaboration($request)
     {
         try {
             return $request;
