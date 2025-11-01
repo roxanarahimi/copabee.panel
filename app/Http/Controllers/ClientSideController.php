@@ -71,16 +71,26 @@ class ClientSideController extends Controller
         try {
             $uploadedFiles = [];
             foreach ($request->file('images') as $file) {
-                // ✅ Store file in storage/app/public/userUploads
-                $path = $file->store('userUploads', 'public');
+                // Original name without extension
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
-                // ✅ Generate public URL (after storage:link)
+                // Extension (jpg or png)
+                $extension = $file->getClientOriginalExtension();
+
+                // ✅ Add timestamp to filename
+                $fileName = $originalName . '_' . time() . '.' . $extension;
+
+                // ✅ Store the file in "storage/app/public/userUploads"
+                $path = $file->storeAs('userUploads', $fileName, 'public');
+
+                // ✅ Public URL after "php artisan storage:link"
                 $url = asset('storage/' . $path);
 
                 $uploadedFiles[] = [
                     'original_name' => $file->getClientOriginalName(),
-                    'path' => $path,
-                    'url' => $url,
+                    'stored_name'   => $fileName,
+                    'path'          => $path,
+                    'url'           => $url,
                 ];
             }
 
