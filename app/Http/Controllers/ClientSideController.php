@@ -70,34 +70,25 @@ class ClientSideController extends Controller
     {
         try {
             $uploadedFiles = [];
-            foreach ($request->file('images') as $file) {
-                // Original name without extension
-                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            foreach($request->file('images') as $file) {
+                foreach ($request->file('images') as $file) {
+                    // ✅ Store file in storage/app/public/userUploads
+                    $path = $file->store('userUploads', 'public');
 
-                // Extension (jpg or png)
-                $extension = $file->getClientOriginalExtension();
+                    // ✅ Generate public URL (after storage:link)
+                    $url = asset('storage/' . $path);
 
-                // ✅ Add timestamp to filename
-                $fileName = $originalName . '_' . time() . '.' . $extension;
-
-                // ✅ Store the file in "storage/app/public/userUploads"
-                $path = $file->storeAs('userUploads', $fileName, 'public');
-
-                // ✅ Public URL after "php artisan storage:link"
-                $url = asset('storage/' . $path);
-
-                $uploadedFiles[] = [
-                    'original_name' => $file->getClientOriginalName(),
-                    'stored_name'   => $fileName,
-                    'path'          => $path,
-                    'url'           => $url,
-                ];
+                    $uploadedFiles[] = [
+                        'original_name' => $file->getClientOriginalName(),
+                        'path' => $path,
+                        'url' => $url,
+                    ];
             }
 
             return response()->json([
                 'message' => 'Files uploaded successfully!',
                 'files' => $uploadedFiles,
-            ]);
+            ], 200);
 
             return 1;
             $collaboration = Collaboration::create($request->except('images'));
