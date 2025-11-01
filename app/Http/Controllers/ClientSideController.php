@@ -80,7 +80,7 @@ class ClientSideController extends Controller
     public function storeComplane(Request $request)
     {
         try {
-            $complane = Complane::create($request->all());
+            $complane = Complane::create($request->except('images'));
             return response($complane, 201);
         } catch (\Exception $exception) {
             return $exception;
