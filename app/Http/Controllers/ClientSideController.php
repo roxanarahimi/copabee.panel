@@ -69,7 +69,7 @@ class ClientSideController extends Controller
     public function storeCollaboration(Request $request)
     {
         try {
-            return $request->files;
+            return $request->file('images');
             $collaboration = Collaboration::create($request->except('images'));
             return response($collaboration, 201);
         } catch (\Exception $exception) {
