@@ -69,10 +69,26 @@ class ClientSideController extends Controller
     public function storeCollaboration(Request $request)
     {
         try {
-//            return $request->file('images')[0];
-            foreach ($request->file('images') as $file){
-                echo $file->getClientOriginalName();
+            $uploadedFiles = [];
+            foreach ($request->file('images') as $file) {
+                // ✅ Store file in storage/app/public/userUploads
+                $path = $file->store('userUploads', 'public');
+
+                // ✅ Generate public URL (after storage:link)
+                $url = asset('storage/' . $path);
+
+                $uploadedFiles[] = [
+                    'original_name' => $file->getClientOriginalName(),
+                    'path' => $path,
+                    'url' => $url,
+                ];
             }
+
+            return response()->json([
+                'message' => 'Files uploaded successfully!',
+                'files' => $uploadedFiles,
+            ]);
+
             return 1;
             $collaboration = Collaboration::create($request->except('images'));
             return response($collaboration, 201);
