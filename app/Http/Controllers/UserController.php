@@ -92,7 +92,7 @@ class UserController extends Controller
                     ]);
                     $user = $this->store($fields);
                 }
-                return response(['user'=>$user,'message' => 'شماره موبایل با موفقیت تایید شد.'], 200);
+                return response(['user'=>new UserResource($user),'message' => 'شماره موبایل با موفقیت تایید شد.'], 200);
             } else {
                 return response(['message' => 'کد وارد شده اشتباه است.'], 422);
             }
