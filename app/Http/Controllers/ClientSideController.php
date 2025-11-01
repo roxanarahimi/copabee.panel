@@ -69,8 +69,7 @@ class ClientSideController extends Controller
     public function storeCollaboration($request)
     {
         try {
-            return $request;
-            $collaboration = Collaboration::create($request->all());
+            $collaboration = Collaboration::create($request->except('images'));
             return response($collaboration, 201);
         } catch (\Exception $exception) {
             return $exception;
@@ -80,7 +79,7 @@ class ClientSideController extends Controller
     public function storeComplane(Request $request)
     {
         try {
-            $complane = Complane::create($request->except('images'));
+            $complane = Complane::create($request->all());
             return response($complane, 201);
         } catch (\Exception $exception) {
             return $exception;
