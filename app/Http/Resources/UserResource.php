@@ -15,21 +15,6 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
-        $table->string('mobile');
-        $table->string('phone')->nullable();
-        $table->string('password')->nullable();
-        $table->string('role')->default('user');// author, admin
-        $table->string('type')->default('person');// company
-        $table->string('national_id')->nullable();//role user
-        $table->string('publish_code')->nullable();//for companies
-        $table->string('birth_date')->nullable();//for persons
-        $table->integer('city_id')->constrained('cities')->default(301);
-        $table->string('postal_code')->nullable();
-        $table->text('address')->nullable();
-        $table->string('image')->nullable();
-        $table->rememberToken();
-        $table->timestamps();
         return [
             'id' => $this->id,
             'name' => $this->name,
