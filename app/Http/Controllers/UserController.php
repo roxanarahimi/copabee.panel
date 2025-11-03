@@ -86,9 +86,6 @@ class UserController extends Controller
                 if (!$user) {
                     $fields = new Request([
                         'mobile' => $request['mobile'],
-                        'type' => $request['type'],
-                        'name' => $request['name'],
-                        'email' => $request['email']//'city_id'
                     ]);
                     $user = $this->store($fields);
                 }
