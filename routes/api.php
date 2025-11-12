@@ -34,7 +34,7 @@ Route::controller(App\Http\Controllers\ClientSideController::class)->group(funct
 Route::controller(App\Http\Controllers\UserController::class)->group(function () {
     Route::post('/user/otp', 'sendOtp');
     Route::post('/user/verify', 'verifyMobile');
-    Route::post('/user/store', 'storeUser');
+    Route::post('/user/store', 'store');
 });
 
 Route::controller(App\Http\Controllers\UserController::class)->group(function () {
