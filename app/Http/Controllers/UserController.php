@@ -101,7 +101,22 @@ class UserController extends Controller
     public function store(Request $request): Response
     {
         try {
-            $user = User::create($request->all());
+            $user = User::where('mobile',$request['mobile'])->first();
+            if($user){
+                $user = User::create($request->all());
+            }else{
+                $user->update($request->all());
+            }
+            return response($user, 201);
+        } catch (\Exception $exception) {
+            return $exception;
+        }
+    }
+public function update(Request $request): Response
+    {
+        try {
+            $user = User::where('mobile',$request['mobile'])->first();
+            $user->update($request->all());
             return response($user, 201);
         } catch (\Exception $exception) {
             return $exception;
