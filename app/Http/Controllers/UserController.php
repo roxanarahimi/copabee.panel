@@ -103,9 +103,9 @@ class UserController extends Controller
         try {
             $user = User::where('mobile',$request['mobile'])->first();
             if($user){
-                $user = User::create($request->all());
-            }else{
                 $user->update($request->all());
+            }else{
+                $user = User::create($request->all());
             }
             return response($user, 201);
         } catch (\Exception $exception) {
