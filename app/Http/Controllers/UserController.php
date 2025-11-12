@@ -89,7 +89,7 @@ class UserController extends Controller
                     ]);
                     $user = $this->store($fields);
                 }
-                return response(['user'=>new UserResource($user),'message' => 'شماره موبایل با موفقیت تایید شد.'], 200);
+                return response(['user' => new UserResource($user), 'message' => 'شماره موبایل با موفقیت تایید شد.'], 200);
             } else {
                 return response(['message' => 'کد وارد شده اشتباه است.'], 422);
             }
@@ -101,10 +101,10 @@ class UserController extends Controller
     public function store(Request $request): Response
     {
         try {
-            $user = User::where('mobile',$request['mobile'])->first();
-            if($user){
+            $user = User::where('mobile', $request['mobile'])->first();
+            if ($user) {
                 $user->update($request->all());
-            }else{
+            } else {
                 $user = User::create($request->all());
             }
             return response($user, 201);
@@ -112,10 +112,11 @@ class UserController extends Controller
             return $exception;
         }
     }
-public function update(Request $request): Response
+
+    public function update(Request $request): Response
     {
         try {
-            $user = User::where('mobile',$request['mobile'])->first();
+            $user = User::where('mobile', $request['mobile'])->first();
             $user->update($request->all());
             return response($user, 201);
         } catch (\Exception $exception) {
