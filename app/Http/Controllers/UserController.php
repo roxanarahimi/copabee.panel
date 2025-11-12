@@ -103,9 +103,9 @@ class UserController extends Controller
         try {
             $user = User::where('mobile', $request['mobile'])->first();
             if ($user) {
-                $user->update($request->all());
+                $user->update($request->except('images'));
             } else {
-                $user = User::create($request->all());
+                $user = User::create($request->except('images'));
             }
             return response($user, 201);
         } catch (\Exception $exception) {
