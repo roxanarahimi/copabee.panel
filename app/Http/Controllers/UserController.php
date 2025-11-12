@@ -107,6 +107,13 @@ class UserController extends Controller
             } else {
                 $user = User::create($request->except('images'));
             }
+            $uploadedFiles = [];
+            foreach ($request->file('images') as $file) {
+                $path = $file->store('userUploads', 'public');
+                $url = asset('storage/' . $path);
+                $uploadedFiles[] = $path;
+            }
+            $user->update(['images' => json_encode($uploadedFiles) ]);
             return response($user, 201);
         } catch (\Exception $exception) {
             return $exception;
