@@ -16,22 +16,21 @@ class UserController extends Controller
     public function sendOtp(Request $request)
     {
         try {
+            $mobile = $this->faToEn($request['mobile']);
             $user = User::where('mobile', $request['mobile'])->first();
             if ($user && $user->role === 'admin') {
                 return response(['message' => 'این شماره موبایل قابل استفاده نیست. لطفا با شماره دیگری تلاش کنید.'], 422);
             }
             $code = rand(1001, 9999);
             $text = ' به کوپابی خوش آمدید.
-        کد تایید شما:
-        ' . $code;
+            کد تایید:' . $code;
             $sms = new Request([
-                'mobile' => $request->mobile,
+                'mobile' => $mobile,
                 'message' => $text,
             ]);
 
             $send = $this->sendSms($sms);
-            Cache::put($request['mobile'], $code, 60);
-//            return $send;
+            Cache::put($mobile, $code, 60);
             if ($send->getStatusCode() === 200) {
                 return response(['message' => 'کد تایید ارسال شد.'], 200);
 
@@ -81,7 +80,9 @@ class UserController extends Controller
     {
         try {
             $code = Cache::get($request['mobile']);
-            if ($code === $request['code']) {
+            $inputCode = $this->faToEn($request['code']);
+
+            if ($code === $inputCode) {
                 $user = User::where('mobile', $request['mobile'])->first();
                 if (!$user) {
                     $fields = new Request([
@@ -113,7 +114,13 @@ class UserController extends Controller
                 $url = asset('storage/' . $path);
                 $uploadedFiles[] = $path;
             }
-            $user->update(['images' => json_encode($uploadedFiles) ]);
+            $user->update(['images' => json_encode($uploadedFiles)]);
+            $user->update([
+                'mobile' => $this->faToEn($request['mobile']),
+                'phone' => $this->faToEn($request['phone']),
+                'postal_code' => $this->faToEn($request['postal_code']),
+                'publish_code' => $this->faToEn($request['publish_code']),
+            ]);
             return response($user, 201);
         } catch (\Exception $exception) {
             return $exception;
@@ -131,5 +138,20 @@ class UserController extends Controller
         }
     }
 
+    function faToEn($string)
+    {
+        return preg_replace_callback('/[۰-۹٠-٩]/u', function ($match) {
+            $num = ['۰' => '0', '۱' => '1', '۲' => '2', '۳' => '3', '۴' => '4', '۵' => '5', '۶' => '6', '۷' => '7', '۸' => '8', '۹' => '9',
+                '٠' => '0', '١' => '1', '٢' => '2', '٣' => '3', '٤' => '4', '٥' => '5', '٦' => '6', '٧' => '7', '٨' => '8', '٩' => '9'];
+            return $num[$match[0]];
+        }, $string);
+    }
+
+    public function tt(Request $request)
+    {
+        echo $request['mobile'].'/r';
+        $mobile = $this->faToEn($request['mobile']);
+        return $mobile;
+    }
 
 }

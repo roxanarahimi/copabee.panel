@@ -38,8 +38,7 @@ Route::controller(App\Http\Controllers\UserController::class)->group(function ()
 });
 
 Route::controller(App\Http\Controllers\UserController::class)->group(function () {
-    Route::post('/test', 'sendSms');
-
+    Route::get('/test', 'tt');
 });
 
 
