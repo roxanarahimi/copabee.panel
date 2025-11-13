@@ -79,13 +79,14 @@ class UserController extends Controller
     {
         try {
             $code = Cache::get($request['mobile']);
+            $mobile = $this->faToEn($request['mobile']);
             $inputCode = $this->faToEn($request['code']);
 
             if ($code === $inputCode) {
-                $user = User::where('mobile', $request['mobile'])->first();
+                $user = User::where('mobile', $mobile)->first();
                 if (!$user) {
                     $fields = new Request([
-                        'mobile' => $request['mobile'],
+                        'mobile' => $mobile,
                     ]);
                     $user = $this->store($fields);
                 }
