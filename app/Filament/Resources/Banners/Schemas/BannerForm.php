@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Banners\Schemas;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -51,10 +52,9 @@ class BannerForm
                         return 'copa-bee-banner-en-' . time() . '.' . $file->getClientOriginalExtension();
                     })
                 ,
-                TextInput::make('link')
+                Textarea::make('link')
                     ->label('لینک')
-                    ->columnSpanFull()
-                    ->maxLength(255),
+                    ->columnSpanFull(),
                 Select::make('visible')
                     ->label('نمایش')
                     ->options([
