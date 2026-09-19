@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('contact_person')->nullable();//for company
             $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('mobile');
+            $table->string('mobile')->nullable();
+            $table->string('scope')->default('user');
             $table->string('phone')->nullable();
             $table->string('password')->nullable();
             $table->string('role')->default('user');// author, admin
